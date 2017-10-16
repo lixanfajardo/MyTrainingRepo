@@ -25,8 +25,10 @@ public class MainActivity extends AppCompatActivity {
         /*control.setStationText(stationsLabel, "0");
         control.setXYposition(0, 200, layout1);*/
 
-        control.setLayoutParams("numberLeft", 700, 350);
+        control.setLayoutParams("numberOverlayRight", 700, 350);
+        control.setLabelText("21");
         setContentView(control.returnLayout());
+
 
     }
 }

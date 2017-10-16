@@ -47,7 +47,7 @@ public class BoxController extends RelativeLayout{
             case "numberBottom":
                 inflate(context, R.layout.layout_text_bottom, this);
                 break;
-            case "numberOverLayLeft" :
+            case "numberOverlayLeft" :
                 inflate(context, R.layout.layout_text_overlay, this);
                 break;
             case "numberOverlayRight":
@@ -55,7 +55,6 @@ public class BoxController extends RelativeLayout{
                 break;
         }
         View id = findViewById(R.id.vvVideo);
-
         if (id != null)
         {
             id.setLayoutParams(new LayoutParams(w, h));
@@ -71,11 +70,11 @@ public class BoxController extends RelativeLayout{
     }
 
 
-    public void setLabelText()
+    public void setLabelText(String text)
     {
-
+        TextView viewID = (TextView) findViewById(R.id.stationLabel);
+        viewID.setText(text);
     }
-
 
     @Override
     protected void onFinishInflate() {
