@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_main);
 
         control = new BoxController(getApplicationContext());
         stationsLabel = (TextView) findViewById(R.id.stationLabel);
@@ -25,9 +25,8 @@ public class MainActivity extends AppCompatActivity {
         /*control.setStationText(stationsLabel, "0");
         control.setXYposition(0, 200, layout1);*/
 
-        control.setLayoutParams("numberBottom", 500, 100);
-
-
+        control.setLayoutParams("numberLeft", 700, 350);
+        setContentView(control.returnLayout());
 
     }
 }
