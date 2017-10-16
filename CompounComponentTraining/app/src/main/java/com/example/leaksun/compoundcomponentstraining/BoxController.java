@@ -2,9 +2,12 @@ package com.example.leaksun.compoundcomponentstraining;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -13,46 +16,72 @@ import org.w3c.dom.Text;
  * Created by LeakSun on 12/10/2017.
  */
 
-public class BoxController extends LinearLayout{
+public class BoxController extends RelativeLayout{
 
+    Context context;
 
     public BoxController(Context context) {
         super(context);
-        initComponents(context);
+        this.context = context;
     }
 
     public BoxController(Context context, AttributeSet attributeSet)
     {
         super(context, attributeSet);
-        initComponents(context);
+        this.context = context;
     }
 
     public BoxController(Context context, AttributeSet attributeSet, int defStyle)
     {
         super(context, attributeSet, defStyle);
-        initComponents(context);
+        this.context = context;
     }
 
-    private void initComponents(Context context)
+    public void setLayoutParams(String layoutType, int w , int h)
     {
-        LayoutInflater inflate = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflate.inflate(R.layout.left_right_box_container, this);
+        switch (layoutType)
+        {
+            case "numberLeft" :
+                inflate(context, R.layout.left_right_box_container, this);
+                break;
+            case "numberBottom":
+                inflate(context, R.layout.layout_text_bottom, this);
+                break;
+            case "numberOverLayLeft" :
+                inflate(context, R.layout.layout_text_overlay, this);
+                break;
+            case "numberOverlayRight":
+                inflate(context, R.layout.layout_text_overlay_right, this);
+                break;
+        }
+        View id = findViewById(R.id.vvVideo);
+
+        if (id != null)
+        {
+            id.setLayoutParams(new LayoutParams(w, h));
+        }
+        else
+            {
+                Log.e("LIXAN", "View is NULL");
+            }
     }
+
+    public BoxController returnLayout(){
+        return this;
+    }
+
+
+    public void setLabelText()
+    {
+
+    }
+
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-
+        returnLayout();
     }
 
-    public void setStationText(TextView viewID, String text)
-    {
-        viewID.setText(text);
-    }
 
-    public void setXYposition(int x, int y, View view)
-    {
-        view.setX(x);
-        view.setY(y);
-    }
 }

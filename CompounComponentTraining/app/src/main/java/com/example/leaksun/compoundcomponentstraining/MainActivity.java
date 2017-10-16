@@ -22,8 +22,12 @@ public class MainActivity extends AppCompatActivity {
         stationsLabel = (TextView) findViewById(R.id.stationLabel);
         layout1 = (RelativeLayout) findViewById(R.id.video_container1);
 
-        control.setStationText(stationsLabel, "0");
-        control.setXYposition(0, 200, layout1);
+        /*control.setStationText(stationsLabel, "0");
+        control.setXYposition(0, 200, layout1);*/
+
+        control.setLayoutParams("numberBottom", 500, 100);
+
+
 
     }
 }
