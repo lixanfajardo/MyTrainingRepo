@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.android.f45techdashboard.TestArea"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/parenLayout">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,78 +17,40 @@
             layout="@layout/fragment_logo"
             android:layout_height="@dimen/logo_height"
             android:layout_width="@dimen/logo_width"
-            android:id="@+id/box1"
-            android:layout_marginRight="1dp" />
+            android:id="@+id/box1" />
 
-        <TextView
+        <FrameLayout
             android:layout_width="@dimen/ticketVolumeArea_width"
             android:layout_height="@dimen/ticketVolumeArea_height"
-            android:background="#263238"
-            android:gravity="center"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp"
-            android:text="@string/ticketvolumearea"
-            android:textColor="#FFFF"
-            android:textSize="16sp"
-            android:id="@+id/box2"
-            />
+            android:id="@+id/frame_ticketArea">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="@dimen/shiftArea_width"
-            android:layout_height="@dimen/shiftArea_height"
-            android:background="#9B9BAB"
-            android:layout_marginLeft="1dp"
-            android:text="@string/shift_area"
-            android:textSize="16sp"
-            android:gravity="center"
+            <include
+                layout="@layout/fragment_ticket_volume"/>
+
+        </FrameLayout>
+
+        <include
+            layout="@layout/fragment_shift_area"
             />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="#202240"
-            android:text="@string/marquee_area"
-            android:textColor="#FFFF"
-            android:gravity="center"
-            android:textSize="25sp" />
-
-    </LinearLayout>
+    <include
+        layout="@layout/fragment_common_issues"
+        android:id="@+id/commonIssueText"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="@dimen/graphsArea_width"
-            android:layout_height="match_parent"
-            android:background="#3F51B5"
-            android:gravity="center"
-            android:textColor="#FFFF"
-            android:text="@string/graphs_area"
-            android:textSize="20sp"
+        <include
+            layout="@layout/fragment_graphs"/>
+
+        <include
+            layout="@layout/fragment_feeds"
             />
-
-        <TextView
-            android:layout_width="@dimen/notificationArea_width"
-            android:layout_height="match_parent"
-            android:background="#CE9B33"
-            android:gravity="center"
-            android:textColor="#FFFF"
-            android:text="@string/notfications_area"
-            android:textSize="20sp"
-            />
-
-
 
     </LinearLayout>
 

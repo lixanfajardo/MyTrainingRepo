@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="@dimen/shiftArea_width"
+        android:layout_height="@dimen/shiftArea_height"
+        android:background="#303F9F"
+        android:textColor="#FFF"
+        android:text="@string/shift_area"
+        android:textSize="16sp"
+        android:gravity="center"
+        />
+
+
+</LinearLayout>

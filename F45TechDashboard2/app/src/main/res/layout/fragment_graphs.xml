@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="@dimen/graphsArea_width"
+        android:layout_height="match_parent"
+        android:background="#3F51B5"
+        android:gravity="center"
+        android:textColor="#FFFF"
+        android:text="@string/graphs_area"
+        android:textSize="20sp" />
