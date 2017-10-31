@@ -13,13 +13,21 @@ import android.widget.TextView;
 import com.android.f45techdashboard.Animations.MarqueeAnimation;
 import com.android.f45techdashboard.Controllers.ShiftTableController;
 import com.android.f45techdashboard.Managers.ShiftTableManager;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+
+import java.util.ArrayList;
 
 public class TestArea extends AppCompatActivity {
 
     TextView marqueeView;
     LinearLayout layout;
     ShiftTableManager shiftManager;
-    int i = 0;
+    BarChart chart;
+    ArrayList<String> graphLabels;
+    ArrayList<BarEntry> entries;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +62,24 @@ public class TestArea extends AppCompatActivity {
             }
         });
 
+        chart = (BarChart) findViewById(R.id.barChart);
 
+        graphLabels = new ArrayList<String>();
+
+        graphLabels.add("Open");
+        graphLabels.add("Unresolved");
+        graphLabels.add("Resolved");
+
+        entries = new ArrayList<BarEntry>();
+        entries.add(new BarEntry(7f, 0));
+        entries.add(new BarEntry(14f, 0));
+        entries.add(new BarEntry(21f, 0));
+
+
+        BarDataSet dataSet = new BarDataSet(entries, "Cells");
+
+        BarData data = new BarData(graphLabels, dataSet);
+        chart.setData(data);
 
 
 

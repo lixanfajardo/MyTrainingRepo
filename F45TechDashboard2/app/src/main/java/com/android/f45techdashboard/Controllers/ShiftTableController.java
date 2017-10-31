@@ -58,7 +58,7 @@ public class ShiftTableController extends LinearLayout implements ShiftUpdateInt
             for(int i = 0; i < newSize; i++)
             {
                 TextView newTexView = new TextView(context);
-                newTexView.setText("Tech Name" + newSize);
+                newTexView.setText("Tech Name " + (i+1));
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 morningGroup.addView(newTexView, layoutParams);
             }
@@ -87,7 +87,7 @@ public class ShiftTableController extends LinearLayout implements ShiftUpdateInt
             for(int i = 0; i < newSize; i++)
             {
                 TextView newTexView = new TextView(context);
-                newTexView.setText("Tech Name" + newSize);
+                newTexView.setText("Tech Name " + (i+1));
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 afternoonGroup.addView(newTexView, layoutParams);
             }
@@ -112,7 +112,7 @@ public class ShiftTableController extends LinearLayout implements ShiftUpdateInt
             for (int i = 0; i < newSize; i++)
             {
                 TextView newTexView = new TextView(context);
-                newTexView.setText("Tech Name" + newSize);
+                newTexView.setText("Tech Name " + (i+1));
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 eveningGroup.addView(newTexView, layoutParams);
             }

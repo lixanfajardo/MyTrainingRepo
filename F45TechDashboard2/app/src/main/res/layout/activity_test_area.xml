@@ -34,10 +34,6 @@
             android:layout_height="@dimen/shiftArea_height"
             android:id="@+id/linearParentLayout" />
 
-        <!--<include
-            layout="@layout/fragment_shift_area"
-            />-->
-
     </LinearLayout>
 
     <include
