@@ -3,6 +3,6 @@
     <string name="ticketvolumearea">Ticket Volume Area</string>
     <string name="shift_area">Shift Area</string>
     <string name="marquee_area">Marquee Area</string>
-    <string name="graphs_area">GRAPHS AREA</string>
+    <string name="graphs_area">GRAPHS</string>
     <string name="notfications_area">NOTIFICATIONS AREA</string>
 </resources>
