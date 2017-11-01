@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -81,6 +83,9 @@ public class TestArea extends AppCompatActivity {
         BarData data = new BarData(graphLabels, dataSet);
         chart.setData(data);
 
+        marqueeView = (TextView) findViewById(R.id.commonIssueText);
+        Animation marqueeAnim = AnimationUtils.loadAnimation(this, R.anim.marquee_animation);
+        marqueeView.startAnimation(marqueeAnim);
 
 
     }
