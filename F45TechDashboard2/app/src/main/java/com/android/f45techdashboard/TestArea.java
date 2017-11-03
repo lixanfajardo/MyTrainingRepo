@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.android.f45techdashboard.Animations.MarqueeAnimation;
 import com.android.f45techdashboard.Controllers.ShiftTableController;
+import com.android.f45techdashboard.Controllers.TicketVolumeController;
 import com.android.f45techdashboard.Managers.ShiftTableManager;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
@@ -25,8 +26,9 @@ import java.util.ArrayList;
 public class TestArea extends AppCompatActivity {
 
     TextView marqueeView;
-    LinearLayout layout;
+    LinearLayout layout, ticketLayout;
     ShiftTableManager shiftManager;
+    TicketVolumeController ticketVolumeController;
     BarChart chart;
     ArrayList<String> graphLabels;
     ArrayList<BarEntry> entries;
@@ -37,13 +39,18 @@ public class TestArea extends AppCompatActivity {
         setContentView(R.layout.activity_test_area);
 
         layout = (LinearLayout) findViewById(R.id.linearParentLayout);
+        ticketLayout = (LinearLayout) findViewById(R.id.frame_ticketArea);
         shiftManager = new ShiftTableManager();
         ShiftTableController controller = new ShiftTableController(this);
-
+        ticketVolumeController = new TicketVolumeController(this);
         shiftManager.putObserver("observerKo", controller);
 
-                if (layout != null)
+                if (layout != null && ticketLayout != null)
                 {
+
+                    ticketVolumeController.setTicketVolumeText("69");
+                    ticketVolumeController.setResponseTimeText("123");
+                    ticketLayout.addView(ticketVolumeController);
                     layout.addView(controller);
                 }
                 else
