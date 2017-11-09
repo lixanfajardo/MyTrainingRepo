@@ -40,7 +40,6 @@
         android:text="@string/marquee_area"
         android:textAllCaps="true"
         android:gravity="center"
-        android:background="#9B9BAB"
         android:textColor="#000000"
         android:textSize="25sp"
         android:maxLines="1"
@@ -60,11 +59,24 @@
             android:layout_height="match_parent"
             android:layout_width="@dimen/graphsArea_width"/>
 
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical">
+
+        <include
+            layout="@layout/fragment_timer"
+            android:layout_height="150dp"
+            android:layout_width="@dimen/notificationArea_width"/>
+
         <include
             layout="@layout/fragment_feeds"
             android:layout_width="@dimen/notificationArea_width"
             android:layout_height="match_parent"
             />
+
+      </LinearLayout>
 
     </LinearLayout>
 
