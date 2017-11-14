@@ -1,21 +1,20 @@
 package com.android.f45techdashboard;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.android.f45techdashboard.Animations.MarqueeAnimation;
 import com.android.f45techdashboard.Controllers.ShiftTableController;
 import com.android.f45techdashboard.Controllers.TicketVolumeController;
+import com.android.f45techdashboard.Controllers.TimerController;
 import com.android.f45techdashboard.Managers.ShiftTableManager;
+import com.android.f45techdashboard.Services.FreshdeskAPIService;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -29,9 +28,11 @@ public class TestArea extends AppCompatActivity {
     LinearLayout layout, ticketLayout;
     ShiftTableManager shiftManager;
     TicketVolumeController ticketVolumeController;
+    TimerController timerController;
     BarChart chart;
     ArrayList<String> graphLabels;
     ArrayList<BarEntry> entries;
+    FrameLayout timerFrame;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,9 +40,12 @@ public class TestArea extends AppCompatActivity {
         setContentView(R.layout.activity_test_area);
 
         layout = (LinearLayout) findViewById(R.id.linearParentLayout);
+        timerFrame = (FrameLayout) findViewById(R.id.timerFrame);
         ticketLayout = (LinearLayout) findViewById(R.id.frame_ticketArea);
+
         shiftManager = new ShiftTableManager();
         ShiftTableController controller = new ShiftTableController(this);
+        timerController = new TimerController(this);
         ticketVolumeController = new TicketVolumeController(this);
         shiftManager.putObserver("observerKo", controller);
 
@@ -51,6 +55,8 @@ public class TestArea extends AppCompatActivity {
                     ticketVolumeController.setTicketVolumeText("69");
                     ticketVolumeController.setResponseTimeText("123");
                     ticketLayout.addView(ticketVolumeController);
+                    timerController.setTimer(7000, 1000);
+                    timerFrame.addView(timerController);
                     layout.addView(controller);
                 }
                 else
@@ -73,13 +79,13 @@ public class TestArea extends AppCompatActivity {
 
         chart = (BarChart) findViewById(R.id.barChart);
 
-        graphLabels = new ArrayList<String>();
+        graphLabels = new ArrayList<>();
 
         graphLabels.add("Open");
         graphLabels.add("Unresolved");
         graphLabels.add("Resolved");
 
-        entries = new ArrayList<BarEntry>();
+        entries = new ArrayList<>();
         entries.add(new BarEntry(7f, 0));
         entries.add(new BarEntry(14f, 0));
         entries.add(new BarEntry(21f, 0));
@@ -93,6 +99,8 @@ public class TestArea extends AppCompatActivity {
         marqueeView = (TextView) findViewById(R.id.commonIssueText);
         Animation marqueeAnim = AnimationUtils.loadAnimation(this, R.anim.marquee_animation);
         marqueeView.startAnimation(marqueeAnim);
+
+        startService(new Intent(getApplicationContext(), FreshdeskAPIService.class));
 
 
     }
