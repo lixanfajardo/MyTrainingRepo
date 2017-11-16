@@ -14,6 +14,7 @@ import com.android.f45techdashboard.Controllers.ShiftTableController;
 import com.android.f45techdashboard.Controllers.TicketVolumeController;
 import com.android.f45techdashboard.Controllers.TimerController;
 import com.android.f45techdashboard.Managers.ShiftTableManager;
+import com.android.f45techdashboard.Services.DeputyAPIService;
 import com.android.f45techdashboard.Services.FreshdeskAPIService;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
@@ -21,6 +22,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class TestArea extends AppCompatActivity {
 
@@ -55,7 +57,7 @@ public class TestArea extends AppCompatActivity {
                     ticketVolumeController.setTicketVolumeText("69");
                     ticketVolumeController.setResponseTimeText("123");
                     ticketLayout.addView(ticketVolumeController);
-                    timerController.setTimer(7000, 1000);
+                    timerController.setTimer(TimeUnit.MINUTES.toMillis(30), 1000);
                     timerFrame.addView(timerController);
                     layout.addView(controller);
                 }
@@ -100,8 +102,8 @@ public class TestArea extends AppCompatActivity {
         Animation marqueeAnim = AnimationUtils.loadAnimation(this, R.anim.marquee_animation);
         marqueeView.startAnimation(marqueeAnim);
 
-        startService(new Intent(getApplicationContext(), FreshdeskAPIService.class));
-
+        //startService(new Intent(getApplicationContext(), FreshdeskAPIService.class));
+        startService(new Intent(getApplicationContext(), DeputyAPIService.class));
 
     }
 }

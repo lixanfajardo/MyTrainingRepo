@@ -80,7 +80,7 @@ class APITask extends AsyncTask<String, String, String>
             inputStream = apiCon.getInputStream();
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
-            if (apiCon != null && bufferedReader != null)
+            if (apiCon != null)
             {
                 while ((data = bufferedReader.readLine()) != null)
                 {
@@ -91,7 +91,7 @@ class APITask extends AsyncTask<String, String, String>
                 bufferedReader.close();
             }
             else {
-                Log.e("FreshDeskAPI", "apiCon and bufferedReader is NULL");
+                Log.e("FreshDeskAPI", "apiCon and is NULL");
             }
 
         } catch (Exception e) {

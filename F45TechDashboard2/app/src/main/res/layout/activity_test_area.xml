@@ -8,6 +8,22 @@
     android:orientation="vertical"
     android:id="@+id/parenLayout">
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/alert_layout"
+        android:visibility="gone">
+
+        <include
+            layout="@layout/fragment_alert"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
