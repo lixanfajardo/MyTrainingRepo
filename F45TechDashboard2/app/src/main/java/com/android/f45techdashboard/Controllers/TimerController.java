@@ -67,11 +67,6 @@ public class TimerController extends LinearLayout implements TimerInterface {
 
         timeInMillis = timeInMillis + 1000;
 
-
-
-
-
-
        countDownTimer = new CountDownTimer(timeInMillis, interval) {
             @Override
             public void onTick(long l) {
