@@ -14,6 +14,8 @@ import com.android.f45techdashboard.Controllers.ShiftTableController;
 import com.android.f45techdashboard.Controllers.TicketVolumeController;
 import com.android.f45techdashboard.Controllers.TimerController;
 import com.android.f45techdashboard.Managers.ShiftTableManager;
+import com.android.f45techdashboard.Models.Constants;
+import com.android.f45techdashboard.Models.DeputyDataModel;
 import com.android.f45techdashboard.Services.DeputyAPIService;
 import com.android.f45techdashboard.Services.FreshdeskAPIService;
 import com.github.mikephil.charting.charts.BarChart;
@@ -35,36 +37,53 @@ public class TestArea extends AppCompatActivity {
     ArrayList<String> graphLabels;
     ArrayList<BarEntry> entries;
     FrameLayout timerFrame;
+    DeputyDataModel deputyDataModel;
+    ShiftTableController controller;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_test_area);
 
+
         layout = (LinearLayout) findViewById(R.id.linearParentLayout);
         timerFrame = (FrameLayout) findViewById(R.id.timerFrame);
         ticketLayout = (LinearLayout) findViewById(R.id.frame_ticketArea);
+        startService(new Intent(getApplicationContext(), DeputyAPIService.class));
+        //startService(new Intent(getApplicationContext(), FreshdeskAPIService.class));
 
         shiftManager = new ShiftTableManager();
-        ShiftTableController controller = new ShiftTableController(this);
+        controller = new ShiftTableController(this);
         timerController = new TimerController(this);
         ticketVolumeController = new TicketVolumeController(this);
         shiftManager.putObserver("observerKo", controller);
 
-                if (layout != null && ticketLayout != null)
-                {
 
-                    ticketVolumeController.setTicketVolumeText("69");
-                    ticketVolumeController.setResponseTimeText("123");
-                    ticketLayout.addView(ticketVolumeController);
-                    timerController.setTimer(TimeUnit.MINUTES.toMillis(30), 1000);
-                    timerFrame.addView(timerController);
-                    layout.addView(controller);
-                }
-                else
-                    {
-                        Log.e("LIXAN", "onCreate: layout is NULL damn it why?");
-                    }
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
+        if (layout != null && ticketLayout != null)
+        {
+
+            ticketVolumeController.setTicketVolumeText("69");
+            ticketVolumeController.setResponseTimeText("123");
+            ticketLayout.addView(ticketVolumeController);
+            timerController.setTimer(TimeUnit.MINUTES.toMillis(30), 1000);
+            timerFrame.addView(timerController);
+            layout.addView(controller);
+        }
+        else
+        {
+            Log.e("LIXAN", "onCreate: layout is NULL damn it why?");
+        }
 
 
 
@@ -72,9 +91,17 @@ public class TestArea extends AppCompatActivity {
             @Override
             public void run() {
 
-                shiftManager.notifyObserver("morning");
-                shiftManager.notifyObserver("afternoon");
-                shiftManager.notifyObserver("evening");
+                if (deputyDataModel != null)
+                {
+                    shiftManager.notifyObserver(deputyDataModel);
+                    shiftManager.notifyObserver(deputyDataModel);
+                    shiftManager.notifyObserver(deputyDataModel);
+                }
+                else
+                    {
+                        Log.e("LIXAN", "MODEL: " + Constants.deputyDataModel);
+                    }
+
 
             }
         });
@@ -101,9 +128,6 @@ public class TestArea extends AppCompatActivity {
         marqueeView = (TextView) findViewById(R.id.commonIssueText);
         Animation marqueeAnim = AnimationUtils.loadAnimation(this, R.anim.marquee_animation);
         marqueeView.startAnimation(marqueeAnim);
-
-        //startService(new Intent(getApplicationContext(), FreshdeskAPIService.class));
-        startService(new Intent(getApplicationContext(), DeputyAPIService.class));
 
     }
 }

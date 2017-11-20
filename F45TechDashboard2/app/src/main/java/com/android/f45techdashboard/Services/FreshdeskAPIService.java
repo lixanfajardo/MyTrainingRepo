@@ -8,6 +8,13 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.f45techdashboard.Models.Constants;
+import com.android.f45techdashboard.Models.FreshdeskDataModel;
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -65,16 +72,21 @@ class APITask extends AsyncTask<String, String, String>
     private InputStream inputStream;
     private BufferedReader bufferedReader;
 
+
     @Override
     protected String doInBackground(String... strings) {
 
-        StringBuffer tempData = new StringBuffer();
-
+        StringBuilder tempData = new StringBuilder();
         String data;
-        try {
+        FreshdeskDataModel freshdeskDataModel = null;
 
+        try {
+            String apikey = "lmiejps0uF4Z7eCwfyIe";
             url = new URL(strings[0]);
             apiCon = (HttpURLConnection) url.openConnection();
+            apiCon.addRequestProperty("apikey", apikey);
+            apiCon.setRequestMethod("GET");
+            apiCon.setRequestProperty("Authorization","Basic " +  apikey);
             apiCon.connect();
 
             inputStream = apiCon.getInputStream();
@@ -85,6 +97,7 @@ class APITask extends AsyncTask<String, String, String>
                 while ((data = bufferedReader.readLine()) != null)
                 {
                     tempData.append(data);
+                    tempData.append("\n");
                 }
 
                 apiCon.disconnect();
@@ -97,7 +110,40 @@ class APITask extends AsyncTask<String, String, String>
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return String.valueOf(tempData);
+
+        JSONArray dataArray = null;
+        JSONObject dataObject = null;
+
+        try {
+
+            dataArray = new JSONArray(tempData.toString());
+
+            for(int i = 0; dataArray.length() > i; i++)
+            {
+                dataObject = dataArray.getJSONObject(i);
+            }
+
+            freshdeskDataModel = new Gson().fromJson(dataObject.toString(), FreshdeskDataModel.class);
+            Constants.freshdeskDataModel = freshdeskDataModel;
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        Log.e("FreshdeskAPI", freshdeskDataModel.toString());
+
+        if(freshdeskDataModel != null)
+        {
+            Log.v("Freshdesk", "Created at: " + freshdeskDataModel.created_at + " update at: " + freshdeskDataModel.updated_at);
+        }
+        else
+            {
+                Log.e("Freshdesk", "model is null");
+            }
+
+        return String.valueOf(freshdeskDataModel);
     }
 
 

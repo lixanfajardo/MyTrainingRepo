@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.f45techdashboard.Models.Constants;
 import com.android.f45techdashboard.Models.DeputyDataModel;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -47,8 +48,7 @@ public class DeputyAPIService extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         String deputyAPIURL = "https://a3c3f816065445.as.deputy.com/api/v1/resource/Timesheet/";
-        deputyAPITask = new DeputyAPITask();
-        deputyAPITask.execute(deputyAPIURL);
+        deputyAPITask = (DeputyAPITask) new DeputyAPITask().execute(deputyAPIURL);
         return START_STICKY;
     }
 }
@@ -120,8 +120,8 @@ class DeputyAPITask extends AsyncTask<String, String, String>
                 }
 
                //dataObject = dataArray.getJSONObject(0);
-               deputyModel = new Gson().fromJson(dataObject.toString(), DeputyDataModel.class);
-
+                deputyModel = new Gson().fromJson(dataObject.toString(), DeputyDataModel.class);
+                Constants.deputyDataModel = deputyModel;
 
             } catch (Exception e) {
                 e.printStackTrace();

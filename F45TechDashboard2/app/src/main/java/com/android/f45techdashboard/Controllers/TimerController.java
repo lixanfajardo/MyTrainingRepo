@@ -63,7 +63,7 @@ public class TimerController extends LinearLayout implements TimerInterface {
     }
 
     @Override
-    public void setTimer( long timeInMillis, long interval) {
+    public void setTimer(long timeInMillis, long interval) {
 
         timeInMillis = timeInMillis + 1000;
 
@@ -77,18 +77,18 @@ public class TimerController extends LinearLayout implements TimerInterface {
 
             @Override
             public void onFinish() {
-                new CountDownTimer(6000, 1000) {
-                    @Override
-                    public void onTick(long l) {
-                        showAlert();
-                    }
+               new CountDownTimer(6000, 1000) {
+                   @Override
+                   public void onTick(long l) {
+                       showAlert();
+                   }
 
-                    @Override
-                    public void onFinish() {
-                        hideAlert();
-                        countDownTimer.start();
-                    }
-                }.start();
+                   @Override
+                   public void onFinish() {
+                       hideAlert();
+                       countDownTimer.start();
+                   }
+               }.start();
             }
         }.start();
     }

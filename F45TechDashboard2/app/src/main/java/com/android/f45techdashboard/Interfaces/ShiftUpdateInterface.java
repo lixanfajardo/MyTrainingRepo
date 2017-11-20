@@ -8,11 +8,11 @@ import android.view.View;
 
 public interface ShiftUpdateInterface {
 
-    void addMorningData(int newSize);
+    void addMorningData(int newSize, String onshiftNames);
 
-    void addAfternoonData(int newSize);
+    void addAfternoonData(int newSize, String onshiftNames);
 
-    void addEveningData(int newSize);
+    void addEveningData(int newSize, String onshiftNames);
 
     int getMorningDataCount();
 
