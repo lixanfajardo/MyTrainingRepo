@@ -52,15 +52,13 @@ public class TestArea extends AppCompatActivity {
         timerFrame = (FrameLayout) findViewById(R.id.timerFrame);
         ticketLayout = (LinearLayout) findViewById(R.id.frame_ticketArea);
         startService(new Intent(getApplicationContext(), DeputyAPIService.class));
-        //startService(new Intent(getApplicationContext(), FreshdeskAPIService.class));
+       // startService(new Intent(getApplicationContext(), FreshdeskAPIService.class));
 
         shiftManager = new ShiftTableManager();
         controller = new ShiftTableController(this);
         timerController = new TimerController(this);
         ticketVolumeController = new TicketVolumeController(this);
         shiftManager.putObserver("observerKo", controller);
-
-
 
 
     }

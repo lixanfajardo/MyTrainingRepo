@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -18,7 +19,9 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.Authenticator;
 import java.net.HttpURLConnection;
+import java.net.PasswordAuthentication;
 import java.net.URL;
 
 
@@ -81,18 +84,23 @@ class APITask extends AsyncTask<String, String, String>
         FreshdeskDataModel freshdeskDataModel = null;
 
         try {
-            String apikey = "lmiejps0uF4Z7eCwfyIe";
             url = new URL(strings[0]);
             apiCon = (HttpURLConnection) url.openConnection();
-            apiCon.addRequestProperty("apikey", apikey);
+
+            String apikey = "lmiejps0uF4Z7eCwfyIe";
+            String userPass = "michael@bywave.com.au:Welcome@12345";
+            byte[] authBytes = Base64.encode(userPass.getBytes(), Base64.DEFAULT);
+            String authString = new String(authBytes);
+            //apiCon.addRequestProperty("apikey", apikey);
             apiCon.setRequestMethod("GET");
-            apiCon.setRequestProperty("Authorization","Basic " +  apikey);
+            apiCon.setDoInput(true);
+            apiCon.setRequestProperty("Authorization","Basic " +  authString);
             apiCon.connect();
 
             inputStream = apiCon.getInputStream();
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
-            if (apiCon != null)
+            if (apiCon != null && apiCon.getResponseCode() == HttpURLConnection.HTTP_OK)
             {
                 while ((data = bufferedReader.readLine()) != null)
                 {
