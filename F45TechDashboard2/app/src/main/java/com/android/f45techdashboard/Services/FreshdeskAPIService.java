@@ -23,6 +23,11 @@ import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.PasswordAuthentication;
 import java.net.URL;
+import java.util.Arrays;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
 
 
 /**
@@ -60,10 +65,6 @@ public class FreshdeskAPIService extends Service {
      return String.valueOf(new APITask().execute(freshdeskURL));
  }
 
- private void authenticateAPI(String username, String password)
- {
-
- }
 
 }
 
@@ -71,7 +72,7 @@ class APITask extends AsyncTask<String, String, String>
 {
 
     private URL url;
-    private HttpURLConnection apiCon;
+    private HttpsURLConnection apiCon;
     private InputStream inputStream;
     private BufferedReader bufferedReader;
 
@@ -84,17 +85,23 @@ class APITask extends AsyncTask<String, String, String>
         FreshdeskDataModel freshdeskDataModel = null;
 
         try {
-            url = new URL(strings[0]);
-            apiCon = (HttpURLConnection) url.openConnection();
 
-            String apikey = "lmiejps0uF4Z7eCwfyIe";
+            SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
+            sslContext.init(null, null, null);
+            SSLSocketFactory noSSL = new NoSSLv3SocketFactory(sslContext.getSocketFactory());
+            HttpsURLConnection.setDefaultSSLSocketFactory(noSSL);
+            url = new URL(strings[0]);
+            apiCon = (HttpsURLConnection) url.openConnection();
+
+
             String userPass = "michael@bywave.com.au:Welcome@12345";
             byte[] authBytes = Base64.encode(userPass.getBytes(), Base64.DEFAULT);
             String authString = new String(authBytes);
-            //apiCon.addRequestProperty("apikey", apikey);
+            Log.d("LIXAN", "AuthString: " + authString);
+            apiCon.addRequestProperty("cache-control", "no-cache");
             apiCon.setRequestMethod("GET");
-            apiCon.setDoInput(true);
-            apiCon.setRequestProperty("Authorization","Basic " +  authString);
+            apiCon.setRequestProperty("Authorization", "Basic " + authString);
+
             apiCon.connect();
 
             inputStream = apiCon.getInputStream();
