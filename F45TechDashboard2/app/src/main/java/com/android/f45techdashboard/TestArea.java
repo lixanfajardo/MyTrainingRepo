@@ -1,6 +1,5 @@
 package com.android.f45techdashboard;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,6 +17,7 @@ import com.android.f45techdashboard.Models.Constants;
 import com.android.f45techdashboard.Models.DeputyDataModel;
 import com.android.f45techdashboard.Services.DeputyAPIService;
 import com.android.f45techdashboard.Services.FreshdeskAPIService;
+import com.android.f45techdashboard.Services.KlipfolioAPIService;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -39,6 +39,9 @@ public class TestArea extends AppCompatActivity {
     FrameLayout timerFrame;
     DeputyDataModel deputyDataModel;
     ShiftTableController controller;
+    KlipfolioAPIService klipfolioAPIService;
+    FreshdeskAPIService freshdeskAPIService;
+    DeputyAPIService deputyAPIService;
 
 
     @Override
@@ -51,14 +54,19 @@ public class TestArea extends AppCompatActivity {
         layout = (LinearLayout) findViewById(R.id.linearParentLayout);
         timerFrame = (FrameLayout) findViewById(R.id.timerFrame);
         ticketLayout = (LinearLayout) findViewById(R.id.frame_ticketArea);
-        startService(new Intent(getApplicationContext(), DeputyAPIService.class));
-        startService(new Intent(getApplicationContext(), FreshdeskAPIService.class));
+//        startService(new Intent(getApplicationContext(), DeputyAPIService.class));
+//        startService(new Intent(getApplicationContext(), FreshdeskAPIService.class));
+        /*freshdeskAPIService = new FreshdeskAPIService();
+        freshdeskAPIService.getFreshdeskData("https://f45training.freshdesk.com/api/v2/tickets");*/
+        klipfolioAPIService = new KlipfolioAPIService();
+        deputyAPIService = new DeputyAPIService();
+
 
         shiftManager = new ShiftTableManager();
         controller = new ShiftTableController(this);
         timerController = new TimerController(this);
         ticketVolumeController = new TicketVolumeController(this);
-        shiftManager.putObserver("observerKo", controller);
+
 
 
     }
@@ -77,32 +85,15 @@ public class TestArea extends AppCompatActivity {
             timerController.setTimer(TimeUnit.MINUTES.toMillis(30), 1000);
             timerFrame.addView(timerController);
             layout.addView(controller);
+            klipfolioAPIService.getKlipfolioData("http://matrix.f45.info/v3/tv_reports");
+            deputyAPIService.getDeputyAPIdata("https://a3c3f816065445.as.deputy.com/api/v1/resource/Timesheet/");
+            shiftManager.putObserver("observerKo", controller);
         }
         else
         {
             Log.e("LIXAN", "onCreate: layout is NULL damn it why?");
         }
 
-
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                if (deputyDataModel != null)
-                {
-                    shiftManager.notifyObserver(deputyDataModel);
-                    shiftManager.notifyObserver(deputyDataModel);
-                    shiftManager.notifyObserver(deputyDataModel);
-                }
-                else
-                    {
-                        Log.e("LIXAN", "MODEL: " + Constants.deputyDataModel);
-                    }
-
-
-            }
-        });
 
         chart = (BarChart) findViewById(R.id.barChart);
 
@@ -126,6 +117,19 @@ public class TestArea extends AppCompatActivity {
         marqueeView = (TextView) findViewById(R.id.commonIssueText);
         Animation marqueeAnim = AnimationUtils.loadAnimation(this, R.anim.marquee_animation);
         marqueeView.startAnimation(marqueeAnim);
+
+
+
+        /*runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                shiftManager.notifyObserver("morning");
+                shiftManager.notifyObserver("afternoon");
+                shiftManager.notifyObserver("evening");
+
+            }
+        });*/
 
     }
 }

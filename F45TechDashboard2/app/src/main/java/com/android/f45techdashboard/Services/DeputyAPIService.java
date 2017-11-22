@@ -1,69 +1,44 @@
 package com.android.f45techdashboard.Services;
 
-import android.annotation.TargetApi;
-import android.app.Service;
-import android.app.job.JobScheduler;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.os.IBinder;
-import android.support.annotation.IntDef;
-import android.support.annotation.Nullable;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.android.f45techdashboard.Managers.ShiftTableManager;
 import com.android.f45techdashboard.Models.Constants;
 import com.android.f45techdashboard.Models.DeputyDataModel;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
 /**
  * Created by LeakSun on 11/09/2017.
  */
 
-public class DeputyAPIService extends Service{
-
-
-    DeputyAPITask deputyAPITask;
-
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-
-        String deputyAPIURL = "https://a3c3f816065445.as.deputy.com/api/v1/resource/Timesheet/";
-        deputyAPITask = (DeputyAPITask) new DeputyAPITask().execute(deputyAPIURL);
-        return START_STICKY;
-    }
-}
-
-
-class DeputyAPITask extends AsyncTask<String, String, String>
+public class DeputyAPIService extends AsyncTask<String, String, String>
 {
 
-     private HttpURLConnection apiCon;
-     private URL url;
-     private InputStream inputStream;
-     private BufferedReader bufferedReader;
+    ShiftTableManager shiftTableManager;
+
+    public void getDeputyAPIdata(String url)
+    {
+        new DeputyAPIService().execute(url);
+    }
+
 
     @Override
     protected String doInBackground(String... strings) {
+
+         HttpURLConnection apiCon;
+         URL url;
+         InputStream inputStream;
+         BufferedReader bufferedReader;
 
         StringBuilder tempData = new StringBuilder();
         String data;
@@ -110,35 +85,52 @@ class DeputyAPITask extends AsyncTask<String, String, String>
         StringBuilder formattedData = new StringBuilder();
 
         try {
-               //convert JSONArray to JSON Object then put to the model
-               dataArray = new JSONArray(tempData.toString());
+            //convert JSONArray to JSON Object then put to the model
+            dataArray = new JSONArray(tempData.toString());
             Log.v("LIXAN", "dataArray Length: " + dataArray.length());
-                for(int i = 0; i < dataArray.length(); i++)
-                {
-                    dataObject = dataArray.getJSONObject(i);
-                    formattedData.append(dataObject + ",");
-                }
-
-               //dataObject = dataArray.getJSONObject(0);
-                deputyModel = new Gson().fromJson(dataObject.toString(), DeputyDataModel.class);
-                Constants.deputyDataModel = deputyModel;
-
-            } catch (Exception e) {
-                e.printStackTrace();
+            for(int i = 0; i < dataArray.length(); i++)
+            {
+                dataObject = dataArray.getJSONObject(i);
+                formattedData.append(dataObject + ",");
             }
 
-            Log.e("LIXAN", "TASK: " + dataObject);
-            Log.e("LIXAN", "TASK: " + formattedData.toString());
-            if(deputyModel != null)
+            //dataObject = dataArray.getJSONObject(0);
+            deputyModel = new Gson().fromJson(dataObject.toString(), DeputyDataModel.class);
+            Constants.deputyDataModel = deputyModel;
+
+            if (deputyModel != null)
             {
-                Log.e("LIXAN", "MODEL: NAME: " + deputyModel._DPMetaData.EmployeeInfo.DisplayName + " ID: " + deputyModel.Id);
-                Log.e("LIXAN", "MODEL: " + deputyModel.toString());
+                shiftTableManager = new ShiftTableManager();
+                shiftTableManager.notifyObserver(deputyModel, "morning");
+
             }
             else
                 {
-                    Log.e("LIXAN", "MODEL: " + "is null ,,/,,");
+                    Log.e("LIXAN", "deputyModel is NULL");
                 }
 
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Log.e("LIXAN", "TASK: " + dataObject);
+        Log.e("LIXAN", "TASK: " + formattedData.toString());
+        if(deputyModel != null)
+        {
+            Log.e("LIXAN", "MODEL: NAME: " + deputyModel._DPMetaData.EmployeeInfo.DisplayName + " ID: " + deputyModel.Id);
+            Log.e("LIXAN", "MODEL: " + deputyModel.toString());
+        }
+        else
+        {
+            Log.e("LIXAN", "MODEL: " + "is null ,,/,,");
+        }
+
         return String.valueOf(deputyModel);
+
+
     }
 }
+

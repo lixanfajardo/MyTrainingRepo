@@ -38,9 +38,9 @@ public class ShiftTableManager {
     }
 
 
-    public void notifyObserver(DeputyDataModel dataModel)
+    public void notifyObserver(DeputyDataModel dataModel, String shift)
     {
-        String shift = "morning";
+       // String shift = "morning";
         ArrayList<String> dataModelArray = new ArrayList<>();
         cal = Calendar.getInstance();
 
