@@ -11,7 +11,4 @@ public class KlifolioDataModel implements Serializable {
 
 
 
-
-
-
 }

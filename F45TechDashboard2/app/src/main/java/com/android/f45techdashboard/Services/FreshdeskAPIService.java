@@ -32,7 +32,7 @@ public class FreshdeskAPIService extends AsyncTask<String, String, String> {
         URL url;
         InputStream inputStream;
         BufferedReader bufferedReader;
-        String userName = "michael@bywave.com.au";
+        String userName = "WU7cFIcIa5VClq8Ns52";
         String passWord = "Welcome@12345";
         String userPass = userName + ":" + passWord;
         String encUserPass = Base64.encodeToString(userPass.getBytes(), Base64.NO_WRAP);

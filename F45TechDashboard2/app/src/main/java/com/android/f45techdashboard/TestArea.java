@@ -85,7 +85,7 @@ public class TestArea extends AppCompatActivity {
             timerController.setTimer(TimeUnit.MINUTES.toMillis(30), 1000);
             timerFrame.addView(timerController);
             layout.addView(controller);
-            klipfolioAPIService.getKlipfolioData("http://matrix.f45.info/v3/tv_reports");
+            klipfolioAPIService.getKlipfolioData("https://app.klipfolio.com/api/1.0/klips/c8c3ef721e6fb01c5e9ccc55ea610892/schema");
             deputyAPIService.getDeputyAPIdata("https://a3c3f816065445.as.deputy.com/api/v1/resource/Timesheet/");
             shiftManager.putObserver("observerKo", controller);
         }

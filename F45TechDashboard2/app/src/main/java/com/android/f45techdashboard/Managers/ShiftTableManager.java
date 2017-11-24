@@ -3,6 +3,7 @@ package com.android.f45techdashboard.Managers;
 import android.util.Log;
 
 import com.android.f45techdashboard.Controllers.ShiftTableController;
+import com.android.f45techdashboard.Models.DataModelLists;
 import com.android.f45techdashboard.Models.DeputyDataModel;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
@@ -38,20 +39,22 @@ public class ShiftTableManager {
     }
 
 
-    public void notifyObserver(DeputyDataModel dataModel, String shift)
+    public void notifyObserver(DeputyDataModel dataModel)
     {
-       // String shift = "morning";
-        ArrayList<String> dataModelArray = new ArrayList<>();
-        cal = Calendar.getInstance();
+        String shift = "morning";
 
-        Log.v("LIXAN", "TIME TO MILIS: " + String.format("%02d:%02d:%02d",
-                TimeUnit.MILLISECONDS.toHours(Integer.parseInt(dataModel.StartTime)),
-                TimeUnit.MILLISECONDS.toMinutes(Integer.parseInt(dataModel.StartTime)) -
-                        TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(Integer.parseInt(dataModel.StartTime))), // The change is in this line
-                TimeUnit.MILLISECONDS.toSeconds(Integer.parseInt(dataModel.StartTime)) -
-                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(Integer.parseInt(dataModel.StartTime)))));
 
-        Log.v("LIXAN", "CUR: TIME: " + cal.get(Calendar.HOUR) + " TIME +9: " + (cal.get(Calendar.HOUR_OF_DAY) + 9));
+        if (dataModel != null)
+        {
+            String timeString = dataModel.data.StartTimeLocalized.substring((dataModel.data.StartTimeLocalized.indexOf("T") + 1), dataModel.data.StartTimeLocalized.indexOf("+"));
+            Log.v("LIXAN", "DATE: " + timeString);
+        }
+        else
+            {
+                Log.e("LIXAN", "MODEL IS NULL 8:::::D");
+            }
+
+
 
         if(shift != null)
         {

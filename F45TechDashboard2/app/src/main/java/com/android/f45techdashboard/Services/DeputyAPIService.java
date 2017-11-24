@@ -4,9 +4,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.android.f45techdashboard.Managers.ShiftTableManager;
-import com.android.f45techdashboard.Models.Constants;
+import com.android.f45techdashboard.Models.DataModelLists;
 import com.android.f45techdashboard.Models.DeputyDataModel;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -80,48 +81,27 @@ public class DeputyAPIService extends AsyncTask<String, String, String>
             e.printStackTrace();
         }
 
-        JSONArray dataArray = null;
-        JSONObject dataObject = null;
-        StringBuilder formattedData = new StringBuilder();
+        DataModelLists deputyDataModelList = null;
 
         try {
-            //convert JSONArray to JSON Object then put to the model
-            dataArray = new JSONArray(tempData.toString());
-            Log.v("LIXAN", "dataArray Length: " + dataArray.length());
-            for(int i = 0; i < dataArray.length(); i++)
-            {
-                dataObject = dataArray.getJSONObject(i);
-                formattedData.append(dataObject + ",");
-            }
+            /*JSONObject jsonObject = new JSONObject();
+            jsonObject.put("data", tempData.toString());*/
 
-            //dataObject = dataArray.getJSONObject(0);
-            deputyModel = new Gson().fromJson(dataObject.toString(), DeputyDataModel.class);
-            Constants.deputyDataModel = deputyModel;
-
-            if (deputyModel != null)
-            {
-                shiftTableManager = new ShiftTableManager();
-                shiftTableManager.notifyObserver(deputyModel, "morning");
-
-            }
-            else
-                {
-                    Log.e("LIXAN", "deputyModel is NULL");
-                }
+            String toJson = "{\"data\":" + new Gson().toJson(tempData) + "}";
+            JSONObject jsonObject = new JSONObject(toJson);
 
 
-
+            deputyModel  = new Gson().fromJson(jsonObject.toString(), DeputyDataModel.class);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        Log.e("LIXAN", "TASK: " + dataObject);
-        Log.e("LIXAN", "TASK: " + formattedData.toString());
         if(deputyModel != null)
         {
-            Log.e("LIXAN", "MODEL: NAME: " + deputyModel._DPMetaData.EmployeeInfo.DisplayName + " ID: " + deputyModel.Id);
+//            Log.e("LIXAN", "MODEL: NAME: " + deputyDataModelList.deputyDataModelList.get(1).data._DPMetaData.EmployeeInfo.DisplayName  + " ID: " + deputyDataModelList.deputyDataModelList.get(1).data.Id);
             Log.e("LIXAN", "MODEL: " + deputyModel.toString());
+            shiftTableManager.notifyObserver(deputyModel);
         }
         else
         {
@@ -132,5 +112,6 @@ public class DeputyAPIService extends AsyncTask<String, String, String>
 
 
     }
+
 }
 
