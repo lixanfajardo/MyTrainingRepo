@@ -17,6 +17,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by LeakSun on 11/09/2017.
@@ -76,39 +78,44 @@ public class DeputyAPIService extends AsyncTask<String, String, String>
             else {
                 Log.e("LIXAN", "NO CONNECTION DUMBASS CAPSLOCK PARA INTENSE MO*FU*");
             }
+
         }catch (Exception e)
         {
             e.printStackTrace();
         }
 
-        DataModelLists deputyDataModelList = null;
-
         try {
-            /*JSONObject jsonObject = new JSONObject();
-            jsonObject.put("data", tempData.toString());*/
 
-            String toJson = "{\"data\":" + new Gson().toJson(tempData) + "}";
-            JSONObject jsonObject = new JSONObject(toJson);
+            shiftTableManager = new ShiftTableManager();
+            JSONArray jsonArray = new JSONArray(tempData.toString());
+            JSONObject jsonObject;
+            ArrayList<DeputyDataModel> arrayShit = new ArrayList<>();
 
 
-            deputyModel  = new Gson().fromJson(jsonObject.toString(), DeputyDataModel.class);
+            for (int i = 0; i < jsonArray.length(); i++)
+            {
+                jsonObject = jsonArray.getJSONObject(i);
+                deputyModel = new Gson().fromJson(jsonObject.toString(), DeputyDataModel.class);
+//                deputyDataModelList = new Gson().fromJson(deputyModel.toString(), DataModelLists.class);
+                arrayShit.add(deputyModel);
+            }
+            
+            if(shiftTableManager != null)
+            {
+//                Log.e("LIXAN", "MODEL: NAME: " + deputyDataModelList.deputyDataModelList.get(0).data._DPMetaData.EmployeeInfo.DisplayName  + " ID: " + deputyDataModelList.deputyDataModelList.get(0).data.Id);
+                Log.e("LIXAN", "MODEL: " + arrayShit);
+                shiftTableManager.notifyObserver(arrayShit);
+            }
+            else
+            {
+                Log.e("LIXAN", "MODEL: " + "is null ,,/,,");
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if(deputyModel != null)
-        {
-//            Log.e("LIXAN", "MODEL: NAME: " + deputyDataModelList.deputyDataModelList.get(1).data._DPMetaData.EmployeeInfo.DisplayName  + " ID: " + deputyDataModelList.deputyDataModelList.get(1).data.Id);
-            Log.e("LIXAN", "MODEL: " + deputyModel.toString());
-            shiftTableManager.notifyObserver(deputyModel);
-        }
-        else
-        {
-            Log.e("LIXAN", "MODEL: " + "is null ,,/,,");
-        }
-
-        return String.valueOf(deputyModel);
+        return null;
 
 
     }

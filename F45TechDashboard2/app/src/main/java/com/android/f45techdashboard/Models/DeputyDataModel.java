@@ -7,11 +7,7 @@ import java.io.Serializable;
 
 public class DeputyDataModel implements Serializable {
 
-    @SerializedName("data")
-    public data data = new data();
 
-    public class data
-    {
         @SerializedName("Id")
         public String Id;
 
@@ -68,8 +64,5 @@ public class DeputyDataModel implements Serializable {
 
         }
 
-
     }
 
-
-}

@@ -1,7 +1,6 @@
 package com.android.f45techdashboard.Models;
 
-import com.google.gson.annotations.SerializedName;
-
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,6 +10,6 @@ import java.util.List;
 
 public class DataModelLists
 {
-    public List<DeputyDataModel> deputyDataModelList;
+    public ArrayList<DeputyDataModel> deputyDataModelList;
 //    public List<KlifolioDataModel> klifolioDataModelList;
 }
