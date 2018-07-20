@@ -1,18 +1,14 @@
 package com.fajardo.lixan.junittestingtraning;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
+
 import java.lang.Math;
 import java.util.Arrays;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
+import static android.test.MoreAsserts.assertNotEqual;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by LeakSun on 06/11/2018.
@@ -83,6 +79,14 @@ public class JUnitTesting {
         assertTrue(actual);
         System.out.println("testTrue - DONE");
 
+    }
+
+    @Test
+    public void testNOtEqual(){
+        int expected = 9;
+        int actual = 3+3;
+
+        assertNotEqual(expected, actual);
     }
 
     @Test
