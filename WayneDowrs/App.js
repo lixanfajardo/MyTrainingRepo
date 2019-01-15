@@ -10,6 +10,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import {createMaterialBottomTabNavigator, createAppContainer} from 'react-navigation-material-bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
+import SplashScreen from 'react-native-splash-screen';
 
 
 const instructions = Platform.select({
@@ -23,6 +24,11 @@ const instructions = Platform.select({
 
 type Props = {};
 class ProjectsScreen extends Component{
+  
+  componentDidMount(){
+    SplashScreen.hide();
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -43,10 +49,13 @@ class SettingsScreen extends Component{
 }
 
 export default createMaterialBottomTabNavigator({
+
   Projects: { 
     screen: ProjectsScreen,
     navigationOptions: {
       tabBarLabel: 'Projects',
+      headerTitle: 'Projects',
+      tabBarColor: '#007ACC',
       tabBarIcon: ({tintColor}) => (
         <Icon name="md-folder" color={tintColor} size={24} />
       )
@@ -56,6 +65,8 @@ export default createMaterialBottomTabNavigator({
     screen: SettingsScreen,
     navigationOptions: {
       tabBarLabel: 'Settings',
+      headerTitle: 'Settings',
+      tabBarColor: '#694fad',
       tabBarIcon: ({tintColor}) => (
         <Icon name="md-settings" color={tintColor} size={24} />
       )
@@ -64,9 +75,13 @@ export default createMaterialBottomTabNavigator({
 },
 {
   initialRouteName: 'Projects',
-  activeTintColor: '#007ACC',
-  inactiveTintColor: 'white',
-  shifting: true
+  shifting: true,
+  activeColor: 'white',
+  barStyle: {
+    alignItems: "center",
+    borderTopWidth: 1,
+    borderColor: 'grey'
+  }
 });
 
 const styles = StyleSheet.create({
