@@ -11,6 +11,7 @@ import {Platform, StyleSheet, Text, View} from 'react-native';
 import {createMaterialBottomTabNavigator, createAppContainer} from 'react-navigation-material-bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SplashScreen from 'react-native-splash-screen';
+import ListViewComponent from './components/ListViewComponent';
 
 
 const instructions = Platform.select({
@@ -31,9 +32,7 @@ class ProjectsScreen extends Component{
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Project Screen</Text>
-      </View>
+      <ListViewComponent />
     );
   }
 }
@@ -88,7 +87,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     backgroundColor: '#F5FCFF',
   },
   welcome: {
