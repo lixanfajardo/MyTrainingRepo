@@ -8,10 +8,11 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
-import {createMaterialBottomTabNavigator, createAppContainer} from 'react-navigation-material-bottom-tabs';
+import Header from 'react-native-elements';
+import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SplashScreen from 'react-native-splash-screen';
-import ListViewComponent from './components/ListViewComponent';
+import ProjectViewComponent from './components/ProjectViewComponent';
 
 
 const instructions = Platform.select({
@@ -32,7 +33,7 @@ class ProjectsScreen extends Component{
 
   render() {
     return (
-      <ListViewComponent />
+      <ProjectViewComponent />
     );
   }
 }
@@ -53,7 +54,7 @@ export default createMaterialBottomTabNavigator({
     screen: ProjectsScreen,
     navigationOptions: {
       tabBarLabel: 'Projects',
-      headerTitle: 'Projects',
+      title: 'Projects',
       tabBarColor: '#007ACC',
       tabBarIcon: ({tintColor}) => (
         <Icon name="md-folder" color={tintColor} size={24} />
@@ -64,12 +65,12 @@ export default createMaterialBottomTabNavigator({
     screen: SettingsScreen,
     navigationOptions: {
       tabBarLabel: 'Settings',
-      headerTitle: 'Settings',
+      title: 'Settings',
       tabBarColor: '#694fad',
       tabBarIcon: ({tintColor}) => (
         <Icon name="md-settings" color={tintColor} size={24} />
       )
-    }  
+    }
   }
 },
 {

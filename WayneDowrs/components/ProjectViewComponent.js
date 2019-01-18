@@ -1,11 +1,19 @@
 
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, FlatList, ToastAndroid} from 'react-native';
+import {
+    View, 
+    Text,
+    StyleSheet,
+    FlatList,
+    ToastAndroid,
+    TouchableOpacity,
+    Alert,
+    TouchableHighlight } from 'react-native';
 import {List, ListItem, SearchBar} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 
-
-class ListViewComponent extends Component{
+class ProjectViewComponent extends Component{
 
     constructor(props){
         super(props);
@@ -53,22 +61,34 @@ class ListViewComponent extends Component{
     render() {
 		if(this.state.success){
 			return(
-				<List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
-                <FlatList
-                data = {this.state.dataSource}
-                renderItem = {({item}) => (
-                    <ListItem roundAvatar
-                    title = {`${item.name.first} ${item.name.last}`}
-                    subtitle = {item.email}
-                    avatar = {{uri: item.picture.thumbnail}} 
-					containerStyle = {{borderBottomWidth: 0}}
-                    />
-                )}
-                keyExtractor = {item => item.email}
-				ItemSeparatorComponent = {this.renderSeparator}
-				ListHeaderComponent = {this.renderSearchBar}
-                />
-			</List> 
+                <View style = {styleSheet.container}>
+                    <List>
+                        <FlatList
+                        data = {this.state.dataSource}
+                        renderItem = {({item}) => (
+                            <ListItem roundAvatar
+                            title = {`${item.name.first} ${item.name.last}`}
+                            subtitle = {item.email}
+                            avatar = {{uri: item.picture.thumbnail}} 
+                            containerStyle = {{borderBottomWidth: 0}}
+                            />
+                        )}
+                        keyExtractor = {item => item.email}
+                        ItemSeparatorComponent = {this.renderSeparator}
+                        ListHeaderComponent = {this.renderSearchBar}
+                        />
+                </List> 
+
+                <TouchableOpacity activeOpacity = {0.5} 
+                onPress = {this.addButtonOnClick}
+                style = {styleSheet.addButtonStyle}>
+                    <Icon name = 'md-add-circle'
+                    size = {60} color = '#007ACC' />
+                </TouchableOpacity>
+
+                </View>
+				
+
 			);
 		}else if(this.state.loaded){
 			return(
@@ -86,7 +106,10 @@ class ListViewComponent extends Component{
         
 	}
 	renderSearchBar = () => {
-		return (<SearchBar placeholder="Search" lightTheme round />);
+		return (
+        <SearchBar placeholder="Search" lightTheme round />
+        
+        );
 	};
 
 	renderSeparator = () => {
@@ -100,11 +123,19 @@ class ListViewComponent extends Component{
 			}}
 		  />
 		);
-	};
+    };
+    
+    addButtonOnClick = () => {
+        Alert.alert("TEST", 'Button Clicked');
+    }
+
+    // flatListOnClick = (data) => {
+    //     ToastAndroid.show(`INDEX: ${data.name.first}`)
+    // }
 
 }
 
-export default ListViewComponent;
+export default ProjectViewComponent;
 
 const styleSheet = StyleSheet.create({
     container: {
@@ -117,5 +148,14 @@ const styleSheet = StyleSheet.create({
        flex: 1,
        justifyContent: 'center',
        alignItems: 'center',
+    },
+    addButtonStyle: {
+        position: 'absolute',
+        alignItems: 'center',
+        justifyContent: 'center',
+        right: 20,
+        bottom: 10,
+        backgroundColor: 'transparent',
+        borderRadius: 60
     }
 });
