@@ -8,11 +8,11 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
-import Header from 'react-native-elements';
 import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SplashScreen from 'react-native-splash-screen';
 import ProjectViewComponent from './components/ProjectViewComponent';
+import SettingsViewComponent from './components/SettingsViewComponent';
 
 
 const instructions = Platform.select({
@@ -41,9 +41,7 @@ class ProjectsScreen extends Component{
 class SettingsScreen extends Component{
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Settings Screen</Text>
-      </View>
+        <SettingsViewComponent/>
     );
   }
 }

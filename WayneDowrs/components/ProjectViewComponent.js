@@ -8,7 +8,8 @@ import {
     ToastAndroid,
     TouchableOpacity,
     Alert,
-    TouchableHighlight } from 'react-native';
+    TouchableHighlight,
+    ActivityIndicator } from 'react-native';
 import {List, ListItem, SearchBar} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -27,7 +28,9 @@ class ProjectViewComponent extends Component{
            seed: 1,
            error: null,
 		   refreshing: false,
-		   success: false
+           success: false,
+           query: "",
+           loadedData: []
         };
     }
 
@@ -43,12 +46,15 @@ class ProjectViewComponent extends Component{
         fetch(api).then(res => res.json())
         .then(res => {
             this.setState({
-                dataSource: page === 1 ? res.results : [...this.state.dataSource, ...res.results],
+                dataSource: res.results,
                 error: res.error || null,
                 loaded: false,
 				refreshing: false,
-				success: true
-			});
+                success: true,
+                loadedData: res.results
+            });
+
+            
         }).catch(error => {
 			this.setState({error, 
 				loaded: false,
@@ -66,14 +72,17 @@ class ProjectViewComponent extends Component{
                         <FlatList
                         data = {this.state.dataSource}
                         renderItem = {({item}) => (
-                            <ListItem roundAvatar
-                            title = {`${item.name.first} ${item.name.last}`}
-                            subtitle = {item.email}
-                            avatar = {{uri: item.picture.thumbnail}} 
-                            containerStyle = {{borderBottomWidth: 0}}
-                            />
+                            <TouchableHighlight onPress = {() => this.flatListOnClick(item)}>
+                                <ListItem roundAvatar
+                                title = {`${item.name.first} ${item.name.last}`}
+                                subtitle = {item.email}
+                                avatar = {{uri: item.picture.thumbnail}} 
+                                containerStyle = {{borderBottomWidth: 0}}   
+                                />
+                            </TouchableHighlight>
+                            
                         )}
-                        keyExtractor = {item => item.email}
+                        keyExtractor = {item => item.login.md5}
                         ItemSeparatorComponent = {this.renderSeparator}
                         ListHeaderComponent = {this.renderSearchBar}
                         />
@@ -82,7 +91,7 @@ class ProjectViewComponent extends Component{
                 <TouchableOpacity activeOpacity = {0.5} 
                 onPress = {this.addButtonOnClick}
                 style = {styleSheet.addButtonStyle}>
-                    <Icon name = 'md-add-circle'
+                    <Icon name = 'md-add-circle-outline'
                     size = {60} color = '#007ACC' />
                 </TouchableOpacity>
 
@@ -107,31 +116,56 @@ class ProjectViewComponent extends Component{
 	}
 	renderSearchBar = () => {
 		return (
-        <SearchBar placeholder="Search" lightTheme round />
+        <SearchBar placeholder="Search" lightTheme round 
+            onChangeText = {query => this.handleSearchQuery(query)} />
         
         );
-	};
+    };
+    
+    handleSearchQuery = (searchQuery) => {
+      const filteredData = this.state.loadedData.filter(dataItem => {
+          const item = `${dataItem.name.first.toLowerCase()} ${dataItem.name.last.toLowerCase()}`;
+
+          const dataText = searchQuery.toLowerCase();
+          return item.indexOf(dataText) > -1;
+      });
+
+      this.setState({dataSource: filteredData});
+    };
 
 	renderSeparator = () => {
 		return (
 		  <View
 			style={{
 			  height: 1,
-			  width: "86%",
-			  backgroundColor: "#CED0CE",
-			  marginLeft: "14%"
+			  width: "100%",
+			  backgroundColor: "#CED0CE"
 			}}
 		  />
 		);
     };
+
+    renderFooter = () => {
+
+        if(!this.state.loaded){
+            return null;
+        }else{
+            return(
+                <View style = {{paddingVertical: 20, borderTopWidth: 1, borderTopColor: "#CED0CE"}}>
+                    <ActivityIndicator animating size='large' />
+                </View>
+            )
+        }
+        
+    }
     
     addButtonOnClick = () => {
         Alert.alert("TEST", 'Button Clicked');
     }
 
-    // flatListOnClick = (data) => {
-    //     ToastAndroid.show(`INDEX: ${data.name.first}`)
-    // }
+    flatListOnClick = (data) => {
+        ToastAndroid.show(`INDEX: ${data.name.first} ${data.name.last}`, ToastAndroid.SHORT);
+    }
 
 }
 
